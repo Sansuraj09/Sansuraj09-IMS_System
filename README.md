@@ -46,6 +46,7 @@ It demonstrates:
 * Queue: Redis
 * Worker: Python background consumer
 * Containerization: Docker + Docker Compose
+  
 
 # Setup Instructions
 
