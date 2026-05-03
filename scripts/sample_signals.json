@@ -1,0 +1,42 @@
+[
+  {
+    "timestamp": "2026-05-03T10:00:01Z",
+    "component_id": "RDBMS_PRIMARY",
+    "service": "orders-db",
+    "severity": "P0",
+    "error": "Connection timeout",
+    "latency_ms": 5000
+  },
+  {
+    "timestamp": "2026-05-03T10:00:02Z",
+    "component_id": "RDBMS_PRIMARY",
+    "service": "orders-db",
+    "severity": "P0",
+    "error": "Query failure",
+    "latency_ms": 6000
+  },
+  {
+    "timestamp": "2026-05-03T10:00:05Z",
+    "component_id": "CACHE_CLUSTER_01",
+    "service": "redis-cache",
+    "severity": "P2",
+    "error": "Cache miss spike",
+    "latency_ms": 800
+  },
+  {
+    "timestamp": "2026-05-03T10:00:07Z",
+    "component_id": "MCP_HOST_02",
+    "service": "mcp-worker",
+    "severity": "P1",
+    "error": "Worker crash loop",
+    "latency_ms": 1200
+  },
+  {
+    "timestamp": "2026-05-03T10:00:08Z",
+    "component_id": "MCP_HOST_02",
+    "service": "mcp-worker",
+    "severity": "P1",
+    "error": "Restart failure",
+    "latency_ms": 1500
+  }
+]
