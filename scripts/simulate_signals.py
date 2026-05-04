@@ -1,8 +1,10 @@
 import requests
 import time
 import random
-from datetime import datetime
 
+
+from datetime import datetime, timezone
+"timestamp": datetime.now(timezone.utc).isoformat()
 API_URL = "http://localhost:8000/ingest"
 
 components = [

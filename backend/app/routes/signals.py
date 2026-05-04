@@ -1,20 +1,21 @@
-kfrom fastapi import APIRouter
+from fastapi import APIRouter
 from pydantic import BaseModel
+from app.services.queue import enqueue_signal
 
 router = APIRouter()
 
-# 🔥 THIS goes here (top-level)
-signals_db = []
-
 class Signal(BaseModel):
+    component_id: str
     service: str
-    status: str
+    severity: str
+    error: str
+    latency_ms: int
 
 @router.post("/signals")
-def create_signal(signal: Signal):
-    signals_db.append(signal.dict())
-    return signal
+async def create_signal(signal: Signal):
+    await enqueue_signal(signal.dict())
+    return {"message": "queued"}
 
 @router.get("/signals")
 def get_signals():
-    return signals_db
+    return {"message": "Use worker + DB later"}
