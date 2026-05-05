@@ -10,7 +10,7 @@ function App() {
     const fetchIncidents = async () => {
       try {
         // Replace with your actual FastAPI endpoint
-        const response = await fetch('http://3.110.115.132:8000/work-items'); 
+        const response = await fetch('http://13.203.160.157:8000/work-items'); 
         if (response.ok) {
           const data = await response.json();
           // Sort P0 -> P1 -> P2 etc.
