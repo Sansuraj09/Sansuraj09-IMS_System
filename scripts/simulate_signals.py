@@ -1,11 +1,10 @@
 import requests
 import time
 import random
-
-
 from datetime import datetime, timezone
-"timestamp": datetime.now(timezone.utc).isoformat()
-API_URL = "http://localhost:8000/ingest"
+
+# Fix 1: Point to the correct FastAPI endpoint
+API_URL = "http://localhost:8000/signals"
 
 components = [
     ("RDBMS_PRIMARY", "orders-db", "P0"),
@@ -21,7 +20,7 @@ errors = {
 
 def generate_signal(component, service, severity):
     return {
-        "timestamp": datetime.utcnow().isoformat(),
+        "timestamp": datetime.now(timezone.utc).isoformat(),
         "component_id": component,
         "service": service,
         "severity": severity,
@@ -31,17 +30,14 @@ def generate_signal(component, service, severity):
 
 def run_simulation():
     print("Starting IMS failure simulation...")
-
     for _ in range(50):
         for comp, service, severity in components:
             payload = generate_signal(comp, service, severity)
-
             try:
                 requests.post(API_URL, json=payload)
                 print(f"Sent: {payload['component_id']} - {payload['error']}")
             except Exception as e:
                 print("API Down / Rate limited:", e)
-
         time.sleep(0.5)
 
 if __name__ == "__main__":

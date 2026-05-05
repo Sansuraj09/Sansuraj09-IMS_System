@@ -1,51 +1,67 @@
-import { useEffect, useState } from "react";
+import { useState, useEffect } from 'react';
+import './App.css'; // Make sure you have some basic CSS here
 
 function App() {
-  const [signals, setSignals] = useState([]);
-  const [error, setError] = useState(null); // Added to track errors
+  const [incidents, setIncidents] = useState([]);
+  const [loading, setLoading] = useState(true);
 
+  // Poll the backend every 5 seconds for live data
   useEffect(() => {
-    fetch("http://15.206.149.43:8000/signals")
-      .then(res => {
-        if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
-        return res.json();
-      })
-      .then(data => {
-        console.log("API DATA:", data);
-        // Ensure we only set an array to state
-        if (Array.isArray(data)) {
-          setSignals(data);
-        } else if (data && Array.isArray(data.signals)) {
-          // Just in case your API wraps it like { signals: [...] }
-          setSignals(data.signals);
-        } else {
-          throw new Error("API did not return an array");
+    const fetchIncidents = async () => {
+      try {
+        // Replace with your actual FastAPI endpoint
+        const response = await fetch('http://3.110.115.132:8000/work-items'); 
+        if (response.ok) {
+          const data = await response.json();
+          // Sort P0 -> P1 -> P2 etc.
+          const sortedData = data.sort((a, b) => a.severity.localeCompare(b.severity));
+          setIncidents(sortedData);
         }
-      })
-      .catch(err => {
-        console.error("FETCH ERROR:", err);
-        setError(err.message);
-      });
+      } catch (error) {
+        console.error("Failed to fetch incidents from API:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchIncidents(); // Initial fetch
+    const intervalId = setInterval(fetchIncidents, 5000); // Poll every 5s
+    
+    return () => clearInterval(intervalId); // Cleanup
   }, []);
 
-  return (
-    <div>
-      <h1>Signals</h1>
-      
-      {/* Display fetch errors if they occur */}
-      {error && <p style={{color: 'red'}}>Error loading signals: {error}</p>}
+  if (loading) return <h2>Loading Incident Dashboard...</h2>;
 
-      {/* Safely check if signals is an array and has length */}
-      {!error && (!Array.isArray(signals) || signals.length === 0) ? (
-        <p>No data</p>
-      ) : (
-        // Optional chaining (?.) as an extra safety net
-        signals?.map((s, i) => (
-          <div key={i}>
-            {s.service} - {s.status}
-          </div>
-        ))
-      )}
+  return (
+    <div className="App">
+      <header>
+        <h1>Mission-Critical IMS Dashboard</h1>
+      </header>
+      
+      <main>
+        <h2>Active Incidents Feed</h2>
+        <div className="incident-grid">
+          {incidents.length === 0 ? (
+            <p>No active incidents. Systems are green.</p>
+          ) : (
+            incidents.map(incident => (
+              <div key={incident.id} className={`incident-card ${incident.severity}`}>
+                <div className="card-header">
+                  <span className="severity-badge">{incident.severity}</span>
+                  <h3>{incident.component_id}</h3>
+                </div>
+                <div className="card-body">
+                  <p><strong>Status:</strong> {incident.status}</p>
+                  <p><strong>Started:</strong> {new Date(incident.start_time).toLocaleTimeString()}</p>
+                </div>
+                <button onClick={() => alert(`Open RCA form for ${incident.id}`)}>
+                  View / Manage RCA
+                </button>
+              </div>
+            ))
+          )}
+        </div>
+      </main>
     </div>
   );
 }

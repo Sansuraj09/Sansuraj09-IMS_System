@@ -1,11 +1,8 @@
-# services/state_machine.py
-
-VALID_TRANSITIONS = {
+VALID = {
     "OPEN": ["INVESTIGATING"],
     "INVESTIGATING": ["RESOLVED"],
-    "RESOLVED": ["CLOSED"],
+    "RESOLVED": ["CLOSED"]
 }
 
 def can_transition(current, new):
-    return new in VALID_TRANSITIONS.get(current, [])
-
+    return new in VALID.get(current, [])
