@@ -45,14 +45,14 @@ This Incident Management System (IMS) is a distributed monitoring engine designe
                 terraform apply
 
    
-#3. Clone the dedicated GitHub repository to the local environment or EC2 instance to access the application code.
+#2. Clone the dedicated GitHub repository to the local environment or EC2 instance to access the application code.
 
         Commands:
                 git clone <your-repository-link>
                 cd incident-management-system
                 
    
-#5. Containerization and Orchestration: Set up the environment using Docker and Docker Compose to manage the frontend, backend, database, and message queue.
+#3. Containerization and Orchestration: Set up the environment using Docker and Docker Compose to manage the frontend, backend, database, and message queue.
 
         Configuration:
                    1 Develop a Dockerfile for the frontend and backend services.
@@ -68,42 +68,45 @@ This Incident Management System (IMS) is a distributed monitoring engine designe
 #4. Traffic Simulation
 Execute simulation scripts to generate incident data and verify system throughput.
 
-Command:
-        python3 scripts/simulate_signals.py
+        Command:
+                python3 scripts/simulate_signals.py
         
         
-#5. API and Service Verification: Test the individual components to ensure high-volume signals are being processed correctly.
+#6. API and Service Verification: Test the individual components to ensure high-volume signals are being processed correctly.
        API Testing: Verify the signal endpoint using curl.
-           curl -X POST http://localhost:8000/signals -H "Content-Type: application/json" -d '{"severity":"P0", "error":"timeout"}'
+               curl -X POST http://localhost:8000/signals -H "Content-Type: application/json" -d '{"severity":"P0", "error":"timeout"}'
 
 #Health Check: Ensure the system status is operational.
-        curl http://localhost:8000/health
+                curl http://localhost:8000/health
 
 
 #6. Database Persistence Check: Verify that all incoming signals are being recorded in the MongoDB instance for auditing and analysis.
-   Command:
-           docker exec -it ims-mongo mongosh
-           show bds
-           use incident_management_db
-           db.raw_signals.find().sort({_id: -1}).limit(1).pretty()
+        Command:
+                   docker exec -it ims-mongo mongosh
+                   show bds
+                   use incident_management_db
+                   db.raw_signals.find().sort({_id: -1}).limit(1).pretty()
  
 
 #7. Frontend Visualization: Access the web dashboard to monitor real-time incidents and system health metrics.
+        
         URL: `http://<Public-IP>:5173`
 
 
 #8. Backend API Root: Access the backend server to verify the core application service and response status.
-URL: http://<Public-IP>:8000/
+        
+        URL: http://<Public-IP>:8000/
 
 
 #9. API Documentation: Access the interactive Swagger UI to review endpoint schemas and perform manual API testing.
-URL: http://<Public-IP>:8000/docs 
+        
+        URL: http://<Public-IP>:8000/docs 
 
 #10. Version Control and Maintenance
     Ensure all configuration and code updates are pushed back to the GitHub repository to maintain project integrity.
     Action: Regularly commit and push changes to your GitHub account.
-    command:
-            git add .
-            git commit -m "commit_name"
-            git push origin main
+            command:
+                    git add .
+                    git commit -m "commit_name"
+                    git push origin main
             
