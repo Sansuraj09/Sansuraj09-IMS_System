@@ -1,7 +1,7 @@
 # Incident Management System (IMS)
 
 # Overview
-This Incident Management System (IMS) is a distributed monitoring engine designed to handle high-volume service signals, process them asynchronously with debouncing logic, and display them in a real-time dashboard. 
+This Incident Management System  is a distributed monitoring engine designed to handle high volume service signals, process them asynchronously with debouncing logic, and display them in a real time dashboard. 
 
 
 
@@ -35,7 +35,8 @@ This Incident Management System (IMS) is a distributed monitoring engine designe
         +-------------------+
 
 
-#Project Execution Process:IMS
+# Project Execution Process:IMS
+
 #1. Infrastructure Provisioning
    Using Terraform, create the cloud environment for this project, including the AWS EC2 instance and necessary security         groups.
 
@@ -45,10 +46,10 @@ This Incident Management System (IMS) is a distributed monitoring engine designe
                 terraform apply
 
    
-#2. Clone the dedicated GitHub repository to the local environment or EC2 instance to access the application code.
+#2. GitHUb clone: Clone the dedicated GitHub repository to the local environment or EC2 instance to access the application code.
 
         Commands:
-                git clone <your-repository-link>
+                git clone https://github.com/Sansuraj09/incident-management-system.gi)
                 cd incident-management-system
                 
    
@@ -74,13 +75,16 @@ Execute simulation scripts to generate incident data and verify system throughpu
         
 #6. API and Service Verification: Test the individual components to ensure high-volume signals are being processed correctly.
        API Testing: Verify the signal endpoint using curl.
+       
                curl -X POST http://localhost:8000/signals -H "Content-Type: application/json" -d '{"severity":"P0", "error":"timeout"}'
 
 #Health Check: Ensure the system status is operational.
+                
                 curl http://localhost:8000/health
 
 
 #6. Database Persistence Check: Verify that all incoming signals are being recorded in the MongoDB instance for auditing and analysis.
+      
         Command:
                    docker exec -it ims-mongo mongosh
                    show bds
@@ -105,6 +109,7 @@ Execute simulation scripts to generate incident data and verify system throughpu
 #10. Version Control and Maintenance
     Ensure all configuration and code updates are pushed back to the GitHub repository to maintain project integrity.
     Action: Regularly commit and push changes to your GitHub account.
+            
             command:
                     git add .
                     git commit -m "commit_name"
