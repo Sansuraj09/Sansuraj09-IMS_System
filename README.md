@@ -57,7 +57,7 @@ This Incident Management System  is a distributed monitoring engine designed to 
 
         Configuration:
                    1 Develop a Dockerfile for the frontend and backend services.
-                   2 Configure a docker-compose.yaml file to link the FastAPI backend, React/Vite frontend, MongoDB, and                      Redis.
+                   2 Configure a docker-compose.yaml file to link the FastAPI backend, React/Vite frontend, MongoDB, and Redis.
 
                 Execution:
                            docker compose up -d --build
